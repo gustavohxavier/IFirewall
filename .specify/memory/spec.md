@@ -39,12 +39,6 @@ O objetivo desta aplicação é fornecer uma interface visual intuitiva para a c
 
 ## Requisitos Não-Funcionais e Arquitetura (S.O.L.I.D. & Clean Code)
 
-- **Tecnologia**: 
-    - Linguagem: Java.
-    - Gerenciador de Dependências: Maven.
-    - Compatibilidade: Qualquer sistema operacional com JVM.
-- **Single Responsibility Principle (SRP)**:
-
 - **Stack Tecnológica**: Java 17+ com Maven (Execução multiplataforma via JVM).
 - **Portabilidade**: O executável (.jar) deve rodar em qualquer SO com JRE instalado.
 - **Single Responsibility Principle (SRP)**:
