@@ -41,6 +41,18 @@ public class RuleDraft {
         this.port = port;
     }
 
+    public Chain getChain() {
+        return chain;
+    }
+
+    public Protocol getProtocol() {
+        return protocol;
+    }
+
+    public Action getAction() {
+        return action;
+    }
+
     /** Uma regra só pode ser adicionada quando tem, no mínimo, Chain e Action. */
     public boolean isComplete() {
         return chain != null && action != null;

@@ -18,8 +18,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.geometry.Pos;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -27,6 +29,8 @@ import javafx.stage.Window;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Controlador da janela principal: liga a interação visual (drag & drop) ao
@@ -51,12 +55,27 @@ public class MainViewController {
     private final ScriptExportService scriptExportService = new ScriptExportService();
     private final ProjectPersistenceService persistenceService = new ProjectPersistenceService();
 
+    /** Faixa de "chips" que mostra a regra sendo montada no canvas central. */
+    private HBox ruleStrip;
+
     @FXML
     public void initialize() {
         populateToolbox();
         configureCanvasDropTarget();
+        configureRuleStrip();
         refreshDraftLabel();
         updateLivePreview();
+    }
+
+    private void configureRuleStrip() {
+        ruleStrip = new HBox(8);
+        ruleStrip.setAlignment(Pos.CENTER_LEFT);
+        ruleStrip.setLayoutX(20);
+        ruleStrip.setLayoutY(20);
+        canvas.getChildren().add(ruleStrip);
+        // Porta/IP digitados também aparecem na regra em tempo real.
+        portField.textProperty().addListener((obs, o, n) -> renderRuleStrip());
+        sourceIpField.textProperty().addListener((obs, o, n) -> renderRuleStrip());
     }
 
     private void populateToolbox() {
@@ -240,6 +259,65 @@ public class MainViewController {
 
     private void refreshDraftLabel() {
         draftLabel.setText(draft.describe());
+        renderRuleStrip();
+    }
+
+    /** Desenha a regra atual no canvas como uma sequência de blocos conectados. */
+    private void renderRuleStrip() {
+        if (ruleStrip == null) {
+            return;
+        }
+        ruleStrip.getChildren().clear();
+
+        List<Label> chips = new ArrayList<>();
+        chips.add(draft.getChain() != null ? chip(draft.getChain().name(), "#1565c0") : placeholder("Chain"));
+        if (draft.getProtocol() != null) {
+            chips.add(chip(draft.getProtocol().name().toLowerCase(), "#00838f"));
+        }
+        String ip = sourceIpField.getText();
+        if (ip != null && !ip.isBlank()) {
+            chips.add(chip("s " + ip.trim(), "#6a1b9a"));
+        }
+        String port = portField.getText();
+        if (port != null && !port.isBlank()) {
+            chips.add(chip(":" + port.trim(), "#6a1b9a"));
+        }
+        chips.add(draft.getAction() != null ? chip(draft.getAction().name(), actionColor()) : placeholder("Action"));
+
+        for (int i = 0; i < chips.size(); i++) {
+            if (i > 0) {
+                ruleStrip.getChildren().add(arrow());
+            }
+            ruleStrip.getChildren().add(chips.get(i));
+        }
+    }
+
+    private String actionColor() {
+        return switch (draft.getAction()) {
+            case ACCEPT -> "#2e7d32";
+            case DROP -> "#c62828";
+            case REJECT -> "#ef6c00";
+        };
+    }
+
+    private Label chip(String text, String background) {
+        Label label = new Label(text);
+        label.setStyle("-fx-background-color: " + background + "; -fx-text-fill: white; "
+                + "-fx-padding: 6 12 6 12; -fx-background-radius: 6; -fx-font-weight: bold;");
+        return label;
+    }
+
+    private Label placeholder(String text) {
+        Label label = new Label(text);
+        label.setStyle("-fx-border-color: #b0b0b0; -fx-border-style: segments(4, 4); -fx-border-radius: 6; "
+                + "-fx-text-fill: #999999; -fx-padding: 6 12 6 12;");
+        return label;
+    }
+
+    private Label arrow() {
+        Label label = new Label("→");
+        label.setStyle("-fx-text-fill: #666666; -fx-font-size: 14;");
+        return label;
     }
 
     private void updateLivePreview() {
