@@ -12,10 +12,10 @@ Este documento detalha as tarefas necessárias para implementar o "Iptables Visu
 ## Fase 2: Lógica de Negócio (Core)
 - **Objetivo**: Implementar o domínio e a lógica de geração de regras.
 
-- [ ] TSK004: **Implementar Modelos de Domínio**: Criar os records/classes imutáveis para `Chain`, `Protocol`, `Action`, `Port`, e `IPAddress` no pacote `core.model`.
-- [ ] TSK005: **Criar Agregado de Regra**: Implementar a classe `FirewallRule` que compõe os objetos de domínio para formar uma regra de firewall completa.
-- [ ] TSK006: **Desenvolver Gerador de Script**: Criar a classe `RuleGeneratorService` no pacote `core.service` que recebe uma `List<FirewallRule>` e possui um método `generate()`.
-- [ ] TSK007: **Implementar Lógica do Cabeçalho**: Adicionar a lógica no `RuleGeneratorService` para gerar o cabeçalho do script (flush, políticas padrão DROP, regra de loopback).
+- [x] TSK004: **Implementar Modelos de Domínio**: Criar os records/classes imutáveis para `Chain`, `Protocol`, `Action`, `Port`, e `IPAddress` no pacote `core.model`.
+- [x] TSK005: **Criar Agregado de Regra**: Implementar a classe `FirewallRule` que compõe os objetos de domínio para formar uma regra de firewall completa.
+- [x] TSK006: **Desenvolver Gerador de Script**: Criar a classe `RuleGeneratorService` no pacote `core.service` que recebe uma `List<FirewallRule>` e possui um método `generate()`.
+- [x] TSK007: **Implementar Lógica do Cabeçalho**: Adicionar a lógica no `RuleGeneratorService` para gerar o cabeçalho do script (flush, políticas padrão DROP, regra de loopback).
 
 ## Fase 3: Testes Unitários (TDD)
 - **Objetivo**: Garantir a corretude do motor de geração de regras.
