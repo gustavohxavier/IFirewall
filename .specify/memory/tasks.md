@@ -5,9 +5,9 @@ Este documento detalha as tarefas necessárias para implementar o "Iptables Visu
 ## Fase 1: Fundação do Projeto (Setup)
 - **Objetivo**: Configurar a estrutura base do projeto Maven.
 
-- [ ] TSK001: **Setup do `pom.xml`**: Criar o arquivo `pom.xml` definindo o projeto para Java 17+ e adicionando as dependências do `javafx-controls`, `javafx-fxml`, `junit-jupiter-api`, e `mockito-core`.
-- [ ] TSK002: **Configurar Fat JAR**: Adicionar e configurar o `maven-shade-plugin` no `pom.xml` para empacotar todas as dependências em um único arquivo JAR executável.
-- [ ] TSK003: **Criar Estrutura de Pacotes**: Criar a estrutura de diretórios inicial: `src/main/java/br/com/ifirewall/core`, `.../infra`, e `.../ui`.
+- [x] TSK001: **Setup do `pom.xml`**: Criar o arquivo `pom.xml` definindo o projeto para Java 17+ e adicionando as dependências do `javafx-controls`, `javafx-fxml`, `junit-jupiter-api`, e `mockito-core`.
+- [x] TSK002: **Configurar Fat JAR**: Adicionar e configurar o `maven-shade-plugin` no `pom.xml` para empacotar todas as dependências em um único arquivo JAR executável.
+- [x] TSK003: **Criar Estrutura de Pacotes**: Criar a estrutura de diretórios inicial: `src/main/java/br/com/ifirewall/core`, `.../infra`, e `.../ui`.
 
 ## Fase 2: Lógica de Negócio (Core)
 - **Objetivo**: Implementar o domínio e a lógica de geração de regras.
