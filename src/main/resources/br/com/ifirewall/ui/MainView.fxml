@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.ifirewall.ui.MainViewController">
+<BorderPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.ifirewall.ui.MainViewController">
    <left>
-      <VBox prefHeight="200.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #f4f4f4; -fx-border-color: #cccccc; -fx-border-width: 0 1 0 0;" BorderPane.alignment="CENTER">
+      <VBox fx:id="toolbox" prefWidth="220.0" spacing="8.0" style="-fx-background-color: #f4f4f4; -fx-border-color: #cccccc; -fx-border-width: 0 1 0 0;" BorderPane.alignment="TOP_CENTER">
          <children>
             <Label text="Toolbox">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label text="(Blocos de arrastar aqui)" />
+            <Label text="(Arraste os blocos para o Canvas)" wrapText="true" />
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -24,14 +28,42 @@
       </VBox>
    </left>
    <center>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Canvas (Área para soltar os blocos)" textFill="#999999" />
+            <Label text="Canvas — solte os blocos aqui para compor uma regra">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Pane fx:id="canvas" style="-fx-background-color: #ffffff; -fx-border-color: #b0b0b0; -fx-border-style: dashed; -fx-border-width: 2;" VBox.vgrow="ALWAYS" />
+            <Label fx:id="draftLabel" style="-fx-text-fill: #333333;" text="Regra atual:" wrapText="true" />
+            <HBox alignment="CENTER_LEFT" spacing="8.0">
+               <children>
+                  <Label text="Porta:" />
+                  <TextField fx:id="portField" prefWidth="80.0" promptText="ex: 22" />
+                  <Label text="IP origem:" />
+                  <TextField fx:id="sourceIpField" prefWidth="140.0" promptText="ex: 192.168.0.1" />
+                  <Button onAction="#onAddRule" text="Adicionar Regra" />
+                  <Button onAction="#onClear" text="Novo / Limpar" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="8.0">
+               <children>
+                  <Button onAction="#onCopyScript" text="Copiar Script" />
+                  <Button onAction="#onExportTxt" text="Gerar .txt" />
+                  <Button onAction="#onExportSh" text="Gerar .sh" />
+                  <Button onAction="#onSaveProject" text="Salvar" />
+                  <Button onAction="#onOpenProject" text="Abrir" />
+               </children>
+            </HBox>
          </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
       </VBox>
    </center>
    <right>
-      <VBox prefHeight="768.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+      <VBox prefWidth="400.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Live Preview do Script">
                <font>
@@ -41,7 +73,7 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
             </Label>
-            <TextArea fx:id="livePreviewTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" style="-fx-font-family: 'monospaced';" VBox.vgrow="ALWAYS" />
+            <TextArea fx:id="livePreviewTextArea" editable="false" style="-fx-font-family: 'monospaced';" VBox.vgrow="ALWAYS" />
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

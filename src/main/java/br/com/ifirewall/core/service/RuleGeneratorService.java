@@ -5,8 +5,9 @@ import br.com.ifirewall.core.model.FirewallRule;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RuleGeneratorService {
+public class RuleGeneratorService implements RuleGenerator {
 
+    @Override
     public String generate(List<FirewallRule> rules) {
         StringBuilder script = new StringBuilder();
 

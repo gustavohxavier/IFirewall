@@ -24,5 +24,8 @@ public record FirewallRule(
     public FirewallRule {
         Objects.requireNonNull(chain, "Chain cannot be null");
         Objects.requireNonNull(action, "Action cannot be null");
+        if (port != null && protocol != Protocol.TCP && protocol != Protocol.UDP) {
+            throw new IllegalArgumentException("Uma porta exige o protocolo TCP ou UDP.");
+        }
     }
 }
