@@ -42,7 +42,26 @@ public class RuleGeneratorService {
             script.append("# Nenhuma regra customizada foi definida.\n");
             return;
         }
-        // A lógica de tradução de cada regra será implementada aqui.
-        // Por enquanto, apenas um placeholder.
+        for (FirewallRule rule : rules) {
+            script.append(translateRule(rule)).append("\n");
+        }
+    }
+
+    private String translateRule(FirewallRule rule) {
+        StringBuilder line = new StringBuilder("iptables -A ").append(rule.chain());
+        if (rule.protocol() != null) {
+            line.append(" -p ").append(rule.protocol().name().toLowerCase());
+        }
+        if (rule.sourceIp() != null) {
+            line.append(" -s ").append(rule.sourceIp().value());
+        }
+        if (rule.destinationIp() != null) {
+            line.append(" -d ").append(rule.destinationIp().value());
+        }
+        if (rule.port() != null) {
+            line.append(" --dport ").append(rule.port().value());
+        }
+        line.append(" -j ").append(rule.action());
+        return line.toString();
     }
 }
