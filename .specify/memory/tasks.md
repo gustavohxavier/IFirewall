@@ -20,10 +20,10 @@ Este documento detalha as tarefas necessárias para implementar o "Iptables Visu
 ## Fase 3: Testes Unitários (TDD)
 - **Objetivo**: Garantir a corretude do motor de geração de regras.
 
-- [ ] TSK008: **[P] Testar Geração de Regra TCP**: Escrever um teste unitário para o `RuleGeneratorService` que valida a geração de uma regra `iptables` com protocolo TCP e porta.
-- [ ] TSK009: **[P] Testar Geração de Regra UDP**: Escrever um teste unitário que valida a geração de uma regra com protocolo UDP e porta.
-- [ ] TSK010: **[P] Testar Geração de Regra ICMP**: Escrever um teste unitário que valida a geração de uma regra com protocolo ICMP.
-- [ ] TSK011: **Testar Script Completo**: Escrever um teste que valida a geração do script completo, incluindo cabeçalho e múltiplas regras.
+- [x] TSK008: **[P] Testar Geração de Regra TCP**: Escrever um teste unitário para o `RuleGeneratorService` que valida a geração de uma regra `iptables` com protocolo TCP e porta.
+- [x] TSK009: **[P] Testar Geração de Regra UDP**: Escrever um teste unitário que valida a geração de uma regra com protocolo UDP e porta.
+- [x] TSK010: **[P] Testar Geração de Regra ICMP**: Escrever um teste unitário que valida a geração de uma regra com protocolo ICMP.
+- [x] TSK011: **Testar Script Completo**: Escrever um teste que valida a geração do script completo, incluindo cabeçalho e múltiplas regras.
 
 ## Fase 4: Interface do Usuário (UI)
 - **Objetivo**: Construir a interface visual com JavaFX.
