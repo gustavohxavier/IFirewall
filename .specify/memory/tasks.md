@@ -37,11 +37,11 @@ Este documento detalha as tarefas necessárias para implementar o "Iptables Visu
 ## Fase 5: Infraestrutura e Exportação (Infra)
 - **Objetivo**: Implementar as funcionalidades de saída do script.
 
-- [ ] TSK017: **Implementar Cópia para Clipboard**: Criar um `ClipboardService` e conectá-lo a um botão "Copiar Script" na UI.
-- [ ] TSK018: **Implementar Exportação para .txt**: Criar um `FileExportService` que usa o `FileChooser` do JavaFX para salvar o script em um arquivo `.txt`. Conectar a um botão "Gerar .txt".
+- [x] TSK017: **Implementar Cópia para Clipboard**: Criar um `ClipboardService` e conectá-lo a um botão "Copiar Script" na UI.
+- [x] TSK018: **Implementar Exportação para .txt**: Criar um `FileExportService` que usa o `FileChooser` do JavaFX para salvar o script em um arquivo `.txt`. Conectar a um botão "Gerar .txt".
 
 ## Fase 6: Finalização e Validação (Polish)
 - **Objetivo**: Revisar, testar e empacotar a aplicação.
 
-- [ ] TSK019: **Revisão de Código**: Realizar uma passagem de refatoração para garantir que o código segue os princípios da Constituição (Clean Code, SOLID).
+- [x] TSK019: **Revisão de Código**: Realizar uma passagem de refatoração para garantir que o código segue os princípios da Constituição (Clean Code, SOLID).
 - [ ] TSK020: **Teste de Aceite Manual**: Executar o JAR gerado em pelo menos dois sistemas operacionais diferentes (ex: Windows e Linux) para validar a portabilidade e a funcionalidade completa.
