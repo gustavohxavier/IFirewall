@@ -1,53 +1,185 @@
-# Tarefas de Implementação: Iptables Visual Builder
+# Tasks: Iptables Visual Builder (Drag & Drop)
 
-Este documento detalha as tarefas necessárias para implementar o "Iptables Visual Builder", com base no plano de implementação.
+**Input**: Design documents em `.specify/memory/` (plan.md, spec.md, research.md, data-model.md, contracts/, quickstart.md)
 
-## Fase 1: Fundação do Projeto (Setup)
-- **Objetivo**: Configurar a estrutura base do projeto Maven.
+**Tests**: Incluídos — a spec exige cobertura de testes unitários (Critérios de Aceite) e a Constituição (Princípio IV) exige testes unitários + integração.
 
-- [x] TSK001: **Setup do `pom.xml`**: Criar o arquivo `pom.xml` definindo o projeto para Java 17+ e adicionando as dependências do `javafx-controls`, `javafx-fxml`, `junit-jupiter-api`, e `mockito-core`.
-- [x] TSK002: **Configurar Fat JAR**: Adicionar e configurar o `maven-shade-plugin` no `pom.xml` para empacotar todas as dependências em um único arquivo JAR executável.
-- [ ] TSK002b: **Adicionar Dependência JSON**: Incluir a biblioteca de serialização JSON (ex.: `jackson-databind` ou `gson`) no `pom.xml` para suportar a persistência de configurações.
-- [x] TSK003: **Criar Estrutura de Pacotes**: Criar a estrutura de diretórios inicial: `src/main/java/br/com/ifirewall/core`, `.../infra`, e `.../ui`.
+**Organization**: Tarefas agrupadas por user story para implementação e teste independentes.
 
-## Fase 2: Lógica de Negócio (Core)
-- **Objetivo**: Implementar o domínio e a lógica de geração de regras.
+## Format: `[ID] [P?] [Story] Description`
 
-- [x] TSK004: **Implementar Modelos de Domínio**: Criar os records/classes imutáveis para `Chain`, `Protocol`, `Action`, `Port`, e `IPAddress` no pacote `core.model`.
-- [x] TSK005: **Criar Agregado de Regra**: Implementar a classe `FirewallRule` que compõe os objetos de domínio para formar uma regra de firewall completa.
-- [x] TSK006: **Desenvolver Gerador de Script**: Criar a classe `RuleGeneratorService` no pacote `core.service` que recebe uma `List<FirewallRule>` e possui um método `generate()`.
-- [x] TSK007: **Implementar Lógica do Cabeçalho**: Adicionar a lógica no `RuleGeneratorService` para gerar o cabeçalho do script (flush, políticas padrão DROP, regra de loopback).
+- **[P]**: Pode rodar em paralelo (arquivos diferentes, sem dependências)
+- **[Story]**: User story à qual a tarefa pertence (US1, US2, US3)
+- Caminhos de arquivo são relativos à raiz do repositório
 
-## Fase 3: Testes Unitários (TDD)
-- **Objetivo**: Garantir a corretude do motor de geração de regras.
+## User Stories (prioridade)
 
-- [x] TSK008: **[P] Testar Geração de Regra TCP**: Escrever um teste unitário para o `RuleGeneratorService` que valida a geração de uma regra `iptables` com protocolo TCP e porta.
-- [x] TSK009: **[P] Testar Geração de Regra UDP**: Escrever um teste unitário que valida a geração de uma regra com protocolo UDP e porta.
-- [x] TSK010: **[P] Testar Geração de Regra ICMP**: Escrever um teste unitário que valida a geração de uma regra com protocolo ICMP.
-- [x] TSK011: **Testar Script Completo**: Escrever um teste que valida a geração do script completo, incluindo cabeçalho e múltiplas regras.
-- [ ] TSK011b: **Teste de Integração UI↔Core**: Escrever teste que valida a colaboração entre o controlador da UI e o `RuleGeneratorService` (Princípio IV da Constituição): ao adicionar/conectar blocos, a lista de `FirewallRule` e o Live Preview refletem o script esperado.
+- **US1 (P1)** 🎯 MVP — Montar uma regra visualmente e ver o comando `iptables` em tempo real.
+- **US2 (P2)** — Exportar o script gerado (clipboard, `.txt`, `.sh`).
+- **US3 (P3)** — Persistir configurações (Salvar/Carregar em JSON e "Novo Projeto").
 
-## Fase 4: Interface do Usuário (UI)
-- **Objetivo**: Construir a interface visual com JavaFX.
+---
 
-- [x] TSK012: **Criar Janela Principal**: Desenvolver a janela principal da aplicação (`MainView.fxml`) com as áreas para a Toolbox, o Canvas e o Live Preview.
-- [x] TSK013: **Desenvolver Blocos Visuais**: Criar os componentes visuais em JavaFX que representam cada elemento do domínio (`Chain`, `Protocol`, etc.).
-- [x] TSK014: **Implementar Canvas Drag & Drop**: Implementar a lógica de arrastar e soltar no Canvas, permitindo que os blocos sejam adicionados e conectados.
-- [x] TSK015: **Conectar UI ao Core**: Fazer com que as ações no Canvas (adicionar/remover/conectar blocos) atualizem uma lista de `FirewallRule` e chamem o `RuleGeneratorService`.
-- [x] TSK016: **Implementar Live Preview**: Exibir a string retornada pelo `RuleGeneratorService` em um `TextArea` ou componente similar no painel de Live Preview.
+## Phase 1: Setup (Shared Infrastructure)
 
-## Fase 5: Infraestrutura, Persistência e Exportação (Infra)
-- **Objetivo**: Implementar as funcionalidades de persistência e saída do script.
+**Purpose**: Inicialização do projeto Maven e dependências.
 
-- [ ] TSK016b: **DTO de Projeto**: Criar a estrutura serializável que representa o estado do canvas (regras + layout) no pacote `infra.persistence`.
-- [ ] TSK016c: **Salvar/Carregar JSON**: Implementar `ProjectPersistenceService` com Save/Load via JSON local e `FileChooser`. Conectar a botões "Salvar"/"Abrir".
-- [ ] TSK016d: **Novo Projeto**: Implementar a ação que limpa o canvas e reseta o estado, conectada a um botão/menu "Novo".
-- [x] TSK017: **Implementar Cópia para Clipboard**: Criar um `ClipboardService` e conectá-lo a um botão "Copiar Script" na UI.
-- [x] TSK018: **Implementar Exportação para .txt**: Criar um `FileExportService` que usa o `FileChooser` do JavaFX para salvar o script em um arquivo `.txt`. Conectar a um botão "Gerar .txt".
-- [ ] TSK018b: **Implementar Exportação para .sh**: Criar um `ScriptExportService` que usa o `FileChooser` para salvar o script em arquivo `.sh`, marcando permissão de execução em sistemas POSIX. Conectar a um botão "Gerar .sh".
+- [x] T001 Criar `pom.xml` (Java 17, `javafx-controls`, `javafx-fxml`, `junit-jupiter-api`, `mockito-core`) em `pom.xml`
+- [x] T002 [P] Configurar plugins de teste/execução em `pom.xml`: `maven-surefire-plugin` 3.2.5, `junit-jupiter-engine`, `javafx-maven-plugin` 0.0.8 (`mvn javafx:run`)
+- [x] T003 Configurar `maven-shade-plugin` (fat JAR) com `mainClass` = `br.com.ifirewall.ui.Launcher` em `pom.xml`, e criar `src/main/java/br/com/ifirewall/ui/Launcher.java`
+- [x] T004 [P] Adicionar dependência JSON (`jackson-databind`) em `pom.xml` (ver D1 em research.md)
+- [x] T005 Criar estrutura de pacotes `core`/`infra`/`ui` em `src/main/java/br/com/ifirewall/`
 
-## Fase 6: Finalização e Validação (Polish)
-- **Objetivo**: Revisar, testar e empacotar a aplicação.
+---
 
-- [x] TSK019: **Revisão de Código**: Realizar uma passagem de refatoração para garantir que o código segue os princípios da Constituição (Clean Code, SOLID).
-- [ ] TSK020: **Teste de Aceite Manual**: Executar o JAR gerado em pelo menos dois sistemas operacionais diferentes (ex: Windows e Linux) para validar a portabilidade e a funcionalidade completa.
+## Phase 2: Foundational (Blocking Prerequisites)
+
+**Purpose**: Domínio e motor de geração — usados por todas as user stories.
+
+**⚠️ CRITICAL**: Nenhuma user story pode ser concluída antes desta fase.
+
+- [x] T006 [P] Criar enums `Chain`, `Protocol`, `Action` em `src/main/java/br/com/ifirewall/core/model/`
+- [x] T007 [P] Criar value objects `Port` e `IPAddress` (com validação) em `src/main/java/br/com/ifirewall/core/model/`
+- [x] T008 Criar agregado `FirewallRule` (validação de `chain`/`action` obrigatórios) em `src/main/java/br/com/ifirewall/core/model/FirewallRule.java` (depende de T006, T007)
+- [x] T009 [P] Definir interface `RuleGenerator` em `src/main/java/br/com/ifirewall/core/service/RuleGenerator.java`
+- [x] T010 Implementar `RuleGeneratorService.generate()` + cabeçalho (flush, políticas DROP, loopback) em `src/main/java/br/com/ifirewall/core/service/RuleGeneratorService.java`
+- [x] T011 Implementar `RuleGeneratorService.translateRule()` conforme `contracts/rule-generator-contract.md`
+- [x] T012 (DIP) Fazer `RuleGeneratorService implements RuleGenerator` e a UI depender da abstração `RuleGenerator` (ver D4 em research.md)
+
+**Checkpoint**: Domínio + motor prontos — user stories podem começar.
+
+---
+
+## Phase 3: User Story 1 - Montagem visual com Live Preview (Priority: P1) 🎯 MVP
+
+**Goal**: O usuário arrasta blocos (Chain, Protocol, Port, IP, Action) para o Canvas, conecta-os, e vê o comando `iptables` correspondente em tempo real no Live Preview.
+
+**Independent Test**: Montar `INPUT + TCP + porta 22 + ACCEPT` e confirmar que o Live Preview exibe `iptables -A INPUT -p tcp --dport 22 -j ACCEPT` sem erros de console.
+
+### Tests for User Story 1 ⚠️
+
+- [x] T013 [P] [US1] Teste unitário de regra TCP em `src/test/java/br/com/ifirewall/core/service/RuleGeneratorServiceTest.java`
+- [x] T014 [P] [US1] Teste unitário de regra UDP em `src/test/java/br/com/ifirewall/core/service/RuleGeneratorServiceTest.java`
+- [x] T015 [P] [US1] Teste unitário de regra ICMP em `src/test/java/br/com/ifirewall/core/service/RuleGeneratorServiceTest.java`
+- [x] T016 [US1] Teste unitário do script completo (cabeçalho + múltiplas regras) em `src/test/java/br/com/ifirewall/core/service/RuleGeneratorServiceTest.java`
+- [x] T017 [US1] Teste de integração UI↔Core (ações no canvas refletem em `List<FirewallRule>` e no preview) em `src/test/java/br/com/ifirewall/ui/CanvasModelIT.java`
+
+### Implementation for User Story 1
+
+- [x] T018 [US1] Construir `MainView.fxml` com áreas Toolbox / Canvas / Live Preview em `src/main/resources/br/com/ifirewall/ui/MainView.fxml`
+- [x] T019 [P] [US1] Implementar blocos visuais arrastáveis para cada elemento do domínio em `src/main/java/br/com/ifirewall/ui/component/DraggableNode.java` (toolbox populada em `MainViewController`)
+- [x] T020 [US1] Implementar drag & drop no Canvas + conectores lógicos (`RuleDraft` valida Chain/Action e porta→TCP/UDP, com alerta visual) em `src/main/java/br/com/ifirewall/ui/`
+- [x] T021 [US1] Conectar ações do Canvas a `CanvasModel`/`List<FirewallRule>` e ao `RuleGenerator` (abstração) em `src/main/java/br/com/ifirewall/ui/MainViewController.java`
+- [x] T022 [US1] Exibir a saída do gerador no `TextArea` de Live Preview em `src/main/java/br/com/ifirewall/ui/MainViewController.java`
+
+**Checkpoint**: US1 funcional e testável de forma independente (MVP).
+
+---
+
+## Phase 4: User Story 2 - Exportação do script (Priority: P2)
+
+**Goal**: A partir da configuração atual, o usuário exporta o script para a área de transferência, para `.txt` e para `.sh` executável.
+
+**Independent Test**: Com uma regra no canvas, usar cada botão de exportação e verificar clipboard, arquivo `.txt` e `.sh` (executável em Linux) com o conteúdo do preview.
+
+### Implementation for User Story 2
+
+- [x] T023 [US2] `ClipboardService` + botão "Copiar Script" em `src/main/java/br/com/ifirewall/infra/export/ClipboardService.java`
+- [x] T024 [US2] `FileExportService` (`.txt`) + botão "Gerar .txt" (FileChooser na UI) em `src/main/java/br/com/ifirewall/infra/export/FileExportService.java`
+- [x] T025 [US2] `ScriptExportService` (`.sh` com permissão de execução em POSIX, ver D2) + botão "Gerar .sh" em `src/main/java/br/com/ifirewall/infra/export/ScriptExportService.java`
+
+**Checkpoint**: US1 e US2 funcionam independentemente.
+
+---
+
+## Phase 5: User Story 3 - Persistência de configurações (Priority: P3)
+
+**Goal**: O usuário salva o estado do canvas em JSON, recarrega depois, e pode iniciar um projeto novo (canvas limpo).
+
+**Independent Test**: Salvar um canvas com regras, fechar/recarregar via "Abrir" e confirmar que as regras e posições são restauradas; "Novo Projeto" limpa tudo.
+
+### Tests for User Story 3 ⚠️
+
+- [x] T026 [P] [US3] Teste de round-trip de serialização do `ProjectState` (save→load preserva regras) em `src/test/java/br/com/ifirewall/infra/persistence/ProjectPersistenceServiceTest.java`
+
+### Implementation for User Story 3
+
+- [x] T027 [P] [US3] Criar DTO `ProjectState` (regras + versão; layout dos nós adiado, ver contrato) em `src/main/java/br/com/ifirewall/infra/persistence/ProjectState.java`
+- [x] T028 [US3] Implementar `ProjectPersistenceService` (Save/Load JSON via `FileChooser`) + botões "Salvar"/"Abrir" em `src/main/java/br/com/ifirewall/infra/persistence/ProjectPersistenceService.java`
+- [x] T029 [US3] Implementar ação "Novo Projeto" (limpa canvas e reseta estado) — botão "Novo / Limpar" em `src/main/java/br/com/ifirewall/ui/MainViewController.java`
+
+**Checkpoint**: Todas as user stories funcionais de forma independente.
+
+---
+
+## Phase 6: Polish & Cross-Cutting Concerns
+
+**Purpose**: Qualidade e validação final.
+
+- [x] T030 [P] Revisão de código (Clean Code / SOLID conforme Constituição) em `src/`
+- [ ] T031 Validação manual cross-OS (Windows + Linux) executando `quickstart.md` e os Critérios de Aceite
+
+---
+
+## Dependencies & Execution Order
+
+### Phase Dependencies
+
+- **Setup (Phase 1)**: sem dependências.
+- **Foundational (Phase 2)**: depende do Setup — **bloqueia** todas as user stories.
+- **User Stories (Phase 3+)**: dependem da Phase 2. US2 e US3 integram com a UI da US1, mas são testáveis isoladamente (export e persistência podem usar `RuleGenerator`/`ProjectState` diretamente).
+- **Polish (Phase 6)**: depende das stories desejadas.
+
+### Within Each User Story
+
+- Testes escritos antes da implementação (devem falhar primeiro).
+- Modelos antes de serviços; serviços antes da UI; núcleo antes da integração.
+
+### Parallel Opportunities
+
+- Setup: T002 e T004 são `[P]`.
+- Foundational: T006, T007 e T009 são `[P]`.
+- US1: testes T013–T015 `[P]`; bloco visual T019 `[P]`.
+- US3: T026 e T027 são `[P]`.
+- Após a Phase 2, US1/US2/US3 podem ser tocadas em paralelo por pessoas diferentes.
+
+---
+
+## Parallel Example: User Story 1
+
+```bash
+# Testes unitários de US1 em paralelo:
+Task: "Teste unitário de regra TCP em RuleGeneratorServiceTest.java"
+Task: "Teste unitário de regra UDP em RuleGeneratorServiceTest.java"
+Task: "Teste unitário de regra ICMP em RuleGeneratorServiceTest.java"
+```
+
+---
+
+## Implementation Strategy
+
+### MVP First (apenas US1)
+
+1. Phase 1: Setup → 2. Phase 2: Foundational (crítico) → 3. Phase 3: US1.
+4. **PARAR e VALIDAR**: testar US1 isoladamente (montar regra → preview correto).
+5. Demonstrar o MVP.
+
+### Incremental Delivery
+
+1. Setup + Foundational → base pronta.
+2. + US1 → MVP (montagem visual + preview).
+3. + US2 → exportação (clipboard/.txt/.sh).
+4. + US3 → persistência (JSON + Novo Projeto).
+
+---
+
+## Estado atual (resumo)
+
+- **Concluído**: Setup completo, todo o Foundational, **US1 completa (T013–T022)**, **US2 completa (T023–T025)**, **US3 completa (T026–T029)**, revisão de código (T030). Testes: **10 unitários (1 skip POSIX no Windows) + 3 integração passando**; GUI inicia sem erros.
+- **Pendente**: T031 (aceite manual cross-OS — Windows + Linux).
+
+## Notes
+
+- `[P]` = arquivos diferentes, sem dependências.
+- A UI (US1) é o maior bloco pendente; export (US2) e persistência (US3) dependem dela apenas para os botões, mas a lógica de serviço é testável isoladamente.
+- Commitar após cada tarefa ou grupo lógico.
