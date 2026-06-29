@@ -28,11 +28,11 @@ Este documento detalha as tarefas necessárias para implementar o "Iptables Visu
 ## Fase 4: Interface do Usuário (UI)
 - **Objetivo**: Construir a interface visual com JavaFX.
 
-- [ ] TSK012: **Criar Janela Principal**: Desenvolver a janela principal da aplicação (`MainView.fxml`) com as áreas para a Toolbox, o Canvas e o Live Preview.
-- [ ] TSK013: **Desenvolver Blocos Visuais**: Criar os componentes visuais em JavaFX que representam cada elemento do domínio (`Chain`, `Protocol`, etc.).
-- [ ] TSK014: **Implementar Canvas Drag & Drop**: Implementar a lógica de arrastar e soltar no Canvas, permitindo que os blocos sejam adicionados e conectados.
-- [ ] TSK015: **Conectar UI ao Core**: Fazer com que as ações no Canvas (adicionar/remover/conectar blocos) atualizem uma lista de `FirewallRule` e chamem o `RuleGeneratorService`.
-- [ ] TSK016: **Implementar Live Preview**: Exibir a string retornada pelo `RuleGeneratorService` em um `TextArea` ou componente similar no painel de Live Preview.
+- [x] TSK012: **Criar Janela Principal**: Desenvolver a janela principal da aplicação (`MainView.fxml`) com as áreas para a Toolbox, o Canvas e o Live Preview.
+- [x] TSK013: **Desenvolver Blocos Visuais**: Criar os componentes visuais em JavaFX que representam cada elemento do domínio (`Chain`, `Protocol`, etc.).
+- [x] TSK014: **Implementar Canvas Drag & Drop**: Implementar a lógica de arrastar e soltar no Canvas, permitindo que os blocos sejam adicionados e conectados.
+- [x] TSK015: **Conectar UI ao Core**: Fazer com que as ações no Canvas (adicionar/remover/conectar blocos) atualizem uma lista de `FirewallRule` e chamem o `RuleGeneratorService`.
+- [x] TSK016: **Implementar Live Preview**: Exibir a string retornada pelo `RuleGeneratorService` em um `TextArea` ou componente similar no painel de Live Preview.
 
 ## Fase 5: Infraestrutura e Exportação (Infra)
 - **Objetivo**: Implementar as funcionalidades de saída do script.

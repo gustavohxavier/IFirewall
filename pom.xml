@@ -69,7 +69,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>br.com.ifirewall.ui.App</mainClass> <!-- Placeholder for the main class -->
+                                    <mainClass>br.com.ifirewall.ui.App</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
