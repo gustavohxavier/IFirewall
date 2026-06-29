@@ -9,75 +9,77 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.ifirewall.ui.MainViewController">
-   <left>
-      <VBox fx:id="toolbox" prefWidth="220.0" spacing="8.0" style="-fx-background-color: #f4f4f4; -fx-border-color: #cccccc; -fx-border-width: 0 1 0 0;" BorderPane.alignment="TOP_CENTER">
+<BorderPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.ifirewall.ui.MainViewController">
+   <top>
+      <VBox spacing="2.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Toolbox">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Label>
-            <Label text="(Arraste os blocos para o Canvas)" wrapText="true" />
+            <Label styleClass="section-title" text="🧱 IFirewall – Gerador de regras de filtragem" />
+            <Label styleClass="hint-label" text="Monte regras de firewall arrastando blocos coloridos — sem decorar comandos!" />
          </children>
          <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            <Insets bottom="6.0" left="16.0" right="16.0" top="14.0" />
          </padding>
+      </VBox>
+   </top>
+   <left>
+      <VBox fx:id="toolbox" prefWidth="230.0" spacing="8.0" styleClass="panel" BorderPane.alignment="TOP_CENTER">
+         <children>
+            <Label styleClass="section-title" text="🧰 Caixa de Blocos" />
+            <Label styleClass="hint-label" text="Arraste os blocos para o canvas →" wrapText="true" />
+         </children>
+         <padding>
+            <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+         </padding>
+         <BorderPane.margin>
+            <Insets bottom="16.0" left="16.0" right="8.0" top="8.0" />
+         </BorderPane.margin>
       </VBox>
    </left>
    <center>
       <VBox spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Canvas — solte os blocos aqui para compor uma regra">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>
-            <Pane fx:id="canvas" style="-fx-background-color: #ffffff; -fx-border-color: #b0b0b0; -fx-border-style: dashed; -fx-border-width: 2;" VBox.vgrow="ALWAYS" />
-            <Label fx:id="draftLabel" style="-fx-text-fill: #333333;" text="Regra atual:" wrapText="true" />
+            <Label styleClass="section-title" text="🎨 Canvas — solte os blocos aqui para compor sua regra" />
+            <Pane fx:id="canvas" styleClass="canvas-area" VBox.vgrow="ALWAYS" />
+            <Label fx:id="draftLabel" styleClass="draft-label" text="Regra atual:" wrapText="true" />
             <HBox alignment="CENTER_LEFT" spacing="8.0">
                <children>
-                  <Label text="Porta:" />
+                  <Label text="🔌 Porta:" />
                   <TextField fx:id="portField" prefWidth="80.0" promptText="ex: 22" />
-                  <Label text="IP origem:" />
+                  <Label text="🌐 IP origem:" />
                   <TextField fx:id="sourceIpField" prefWidth="140.0" promptText="ex: 192.168.0.1" />
-                  <Button onAction="#onAddRule" text="Adicionar Regra" />
-                  <Button onAction="#onClear" text="Novo / Limpar" />
+                  <Button onAction="#onAddRule" styleClass="button-primary" text="➕ Adicionar Regra" />
+                  <Button onAction="#onClear" styleClass="button-soft" text="🧹 Novo / Limpar" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" spacing="8.0">
                <children>
-                  <Button onAction="#onCopyScript" text="Copiar Script" />
-                  <Button onAction="#onExportTxt" text="Gerar .txt" />
-                  <Button onAction="#onExportSh" text="Gerar .sh" />
-                  <Button onAction="#onSaveProject" text="Salvar" />
-                  <Button onAction="#onOpenProject" text="Abrir" />
+                  <Button onAction="#onCopyScript" text="📋 Copiar Script" />
+                  <Button onAction="#onExportTxt" text="📄 Gerar .txt" />
+                  <Button onAction="#onExportSh" text="🐧 Gerar .sh" />
+                  <Button onAction="#onSaveProject" text="💾 Salvar" />
+                  <Button onAction="#onOpenProject" text="📂 Abrir" />
                </children>
             </HBox>
          </children>
          <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            <Insets bottom="16.0" left="8.0" right="8.0" top="8.0" />
          </padding>
       </VBox>
    </center>
    <right>
-      <VBox prefWidth="400.0" BorderPane.alignment="CENTER">
+      <VBox prefWidth="560.0" minWidth="480.0" spacing="6.0" styleClass="panel" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Live Preview do Script">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-               <VBox.margin>
-                  <Insets bottom="5.0" />
-               </VBox.margin>
-            </Label>
-            <TextArea fx:id="livePreviewTextArea" editable="false" style="-fx-font-family: 'monospaced';" VBox.vgrow="ALWAYS" />
+            <Label styleClass="section-title" text="👁 Pré-visualização do Script" />
+            <Label styleClass="hint-label" text="O comando iptables é gerado em tempo real conforme você monta." wrapText="true" />
+            <TextArea fx:id="livePreviewTextArea" editable="false" VBox.vgrow="ALWAYS" />
          </children>
          <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
          </padding>
+         <BorderPane.margin>
+            <Insets bottom="16.0" left="8.0" right="16.0" top="8.0" />
+         </BorderPane.margin>
       </VBox>
    </right>
 </BorderPane>
