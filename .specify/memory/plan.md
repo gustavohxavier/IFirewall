@@ -38,13 +38,22 @@ Este plano detalha os passos para desenvolver a aplicação "Iptables Visual Bui
     - Implementar o Canvas que recebe os blocos e gerencia as conexões lógicas.
     - Conectar o estado do Canvas ao `RuleGeneratorService` para alimentar o painel de "Live Preview".
 
-## 5. Funcionalidades de Exportação (Infra)
+## 5. Persistência de Configurações (Infra)
+
+- **Objetivo**: Permitir salvar/carregar o estado do canvas e reiniciar o projeto.
+- **Ações**:
+    - Definir um DTO serializável que represente o estado do canvas (lista de `FirewallRule` + posições dos blocos).
+    - Criar um `ProjectPersistenceService` que serializa/desserializa o DTO para JSON local (ex.: Jackson), usando o `FileChooser` do JavaFX para Salvar/Carregar.
+    - Implementar a ação "Novo Projeto" que limpa o canvas e reseta o estado.
+
+## 6. Funcionalidades de Exportação (Infra)
 
 - **Objetivo**: Implementar as opções de saída para o usuário, conforme solicitado.
 - **Ações**:
     - Criar um `ClipboardService` que utiliza o `java.awt.Toolkit` para copiar o script gerado para a área de transferência.
     - Criar um `FileExportService` que utiliza `java.nio.file` para salvar o script em um arquivo `.txt`, usando o `FileChooser` do JavaFX para que o usuário escolha o local.
-    - Integrar esses serviços à UI através de botões ("Copiar Script", "Gerar .txt").
+    - Criar um `ScriptExportService` que utiliza `java.nio.file` para salvar o script em um arquivo `.sh`, definindo permissão de execução quando o SO suportar (POSIX). O conteúdo é idêntico ao gerado pelo `RuleGeneratorService`.
+    - Integrar esses serviços à UI através de botões ("Copiar Script", "Gerar .txt", "Gerar .sh").
 
 ## Critérios de Sucesso
 
@@ -52,4 +61,6 @@ Este plano detalha os passos para desenvolver a aplicação "Iptables Visual Bui
 - [ ] A aplicação inicia e exibe a interface em Windows, macOS e Linux (com JVM instalada).
 - [ ] A funcionalidade de "Copiar Script" funciona corretamente.
 - [ ] A aplicação gera um arquivo `.txt` com o conteúdo do script de firewall.
-- [ ] A lógica de geração de regras possui cobertura de testes unitários.
+- [ ] A aplicação gera um arquivo `.sh` executável e válido em ambiente Linux.
+- [ ] A configuração do canvas pode ser salva e carregada a partir de um arquivo JSON local.
+- [ ] A lógica de geração de regras possui cobertura de testes unitários e um teste de integração UI↔Core.

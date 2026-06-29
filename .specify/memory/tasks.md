@@ -7,6 +7,7 @@ Este documento detalha as tarefas necessárias para implementar o "Iptables Visu
 
 - [x] TSK001: **Setup do `pom.xml`**: Criar o arquivo `pom.xml` definindo o projeto para Java 17+ e adicionando as dependências do `javafx-controls`, `javafx-fxml`, `junit-jupiter-api`, e `mockito-core`.
 - [x] TSK002: **Configurar Fat JAR**: Adicionar e configurar o `maven-shade-plugin` no `pom.xml` para empacotar todas as dependências em um único arquivo JAR executável.
+- [ ] TSK002b: **Adicionar Dependência JSON**: Incluir a biblioteca de serialização JSON (ex.: `jackson-databind` ou `gson`) no `pom.xml` para suportar a persistência de configurações.
 - [x] TSK003: **Criar Estrutura de Pacotes**: Criar a estrutura de diretórios inicial: `src/main/java/br/com/ifirewall/core`, `.../infra`, e `.../ui`.
 
 ## Fase 2: Lógica de Negócio (Core)
@@ -24,6 +25,7 @@ Este documento detalha as tarefas necessárias para implementar o "Iptables Visu
 - [x] TSK009: **[P] Testar Geração de Regra UDP**: Escrever um teste unitário que valida a geração de uma regra com protocolo UDP e porta.
 - [x] TSK010: **[P] Testar Geração de Regra ICMP**: Escrever um teste unitário que valida a geração de uma regra com protocolo ICMP.
 - [x] TSK011: **Testar Script Completo**: Escrever um teste que valida a geração do script completo, incluindo cabeçalho e múltiplas regras.
+- [ ] TSK011b: **Teste de Integração UI↔Core**: Escrever teste que valida a colaboração entre o controlador da UI e o `RuleGeneratorService` (Princípio IV da Constituição): ao adicionar/conectar blocos, a lista de `FirewallRule` e o Live Preview refletem o script esperado.
 
 ## Fase 4: Interface do Usuário (UI)
 - **Objetivo**: Construir a interface visual com JavaFX.
@@ -34,11 +36,15 @@ Este documento detalha as tarefas necessárias para implementar o "Iptables Visu
 - [x] TSK015: **Conectar UI ao Core**: Fazer com que as ações no Canvas (adicionar/remover/conectar blocos) atualizem uma lista de `FirewallRule` e chamem o `RuleGeneratorService`.
 - [x] TSK016: **Implementar Live Preview**: Exibir a string retornada pelo `RuleGeneratorService` em um `TextArea` ou componente similar no painel de Live Preview.
 
-## Fase 5: Infraestrutura e Exportação (Infra)
-- **Objetivo**: Implementar as funcionalidades de saída do script.
+## Fase 5: Infraestrutura, Persistência e Exportação (Infra)
+- **Objetivo**: Implementar as funcionalidades de persistência e saída do script.
 
+- [ ] TSK016b: **DTO de Projeto**: Criar a estrutura serializável que representa o estado do canvas (regras + layout) no pacote `infra.persistence`.
+- [ ] TSK016c: **Salvar/Carregar JSON**: Implementar `ProjectPersistenceService` com Save/Load via JSON local e `FileChooser`. Conectar a botões "Salvar"/"Abrir".
+- [ ] TSK016d: **Novo Projeto**: Implementar a ação que limpa o canvas e reseta o estado, conectada a um botão/menu "Novo".
 - [x] TSK017: **Implementar Cópia para Clipboard**: Criar um `ClipboardService` e conectá-lo a um botão "Copiar Script" na UI.
 - [x] TSK018: **Implementar Exportação para .txt**: Criar um `FileExportService` que usa o `FileChooser` do JavaFX para salvar o script em um arquivo `.txt`. Conectar a um botão "Gerar .txt".
+- [ ] TSK018b: **Implementar Exportação para .sh**: Criar um `ScriptExportService` que usa o `FileChooser` para salvar o script em arquivo `.sh`, marcando permissão de execução em sistemas POSIX. Conectar a um botão "Gerar .sh".
 
 ## Fase 6: Finalização e Validação (Polish)
 - **Objetivo**: Revisar, testar e empacotar a aplicação.

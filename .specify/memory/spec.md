@@ -26,7 +26,7 @@ O objetivo desta aplicação é fornecer uma interface visual intuitiva para a c
 - Exibição em tempo real dos comandos `iptables` correspondentes à configuração visual atual.
 - Destaque de sintaxe para facilitar a leitura das regras geradas.
 
-### 3. Gerador de Script e Exportação
+### 4. Gerador de Script e Exportação
 - Opções para exportar a configuração:
     - Exportar como arquivo de script bash (`.sh`).
     - Gerar arquivo de texto puro (`.txt`).
@@ -54,8 +54,9 @@ O objetivo desta aplicação é fornecer uma interface visual intuitiva para a c
 
 ## Experiência do Usuário (UX)
 - **Feedback Visual**: Blocos que não podem se conectar devem emitir um alerta visual ou impedir o encaixe (Interface Intuitiva).
-- **Undo/Redo**: Possibilidade de desfazer ações de drag and drop.
 - **Exportação com Um Clique**: Facilidade total para obter o resultado final.
+
+> **Fora do escopo do MVP (YAGNI)**: As funcionalidades de **Undo/Redo** das ações de drag and drop e de **destaque de sintaxe** no painel de Live Preview ficam fora do MVP, sendo candidatas a evolução futura. Esta decisão alinha spec, plano e tarefas e respeita o princípio YAGNI da Constituição.
 
 ## Exemplo de Fluxo de Usuário
 1. O usuário arrasta o bloco `INPUT` para o canvas.
