@@ -79,18 +79,24 @@ public class MainViewController {
     }
 
     private void populateToolbox() {
-        toolbox.getChildren().add(new Label("Chains"));
+        toolbox.getChildren().add(categoryLabel("🔗 Chains (fluxo)"));
         for (Chain c : Chain.values()) {
             toolbox.getChildren().add(new DraggableNode(c.name(), "CHAIN", c.name()));
         }
-        toolbox.getChildren().add(new Label("Protocolos"));
+        toolbox.getChildren().add(categoryLabel("📡 Protocolos"));
         for (Protocol p : Protocol.values()) {
             toolbox.getChildren().add(new DraggableNode(p.name(), "PROTOCOL", p.name()));
         }
-        toolbox.getChildren().add(new Label("Ações"));
+        toolbox.getChildren().add(categoryLabel("🎯 Ações"));
         for (Action a : Action.values()) {
             toolbox.getChildren().add(new DraggableNode(a.name(), "ACTION", a.name()));
         }
+    }
+
+    private Label categoryLabel(String text) {
+        Label label = new Label(text);
+        label.getStyleClass().add("category-label");
+        return label;
     }
 
     private void configureCanvasDropTarget() {
@@ -270,19 +276,19 @@ public class MainViewController {
         ruleStrip.getChildren().clear();
 
         List<Label> chips = new ArrayList<>();
-        chips.add(draft.getChain() != null ? chip(draft.getChain().name(), "#1565c0") : placeholder("Chain"));
+        chips.add(draft.getChain() != null ? chip("🔗 " + draft.getChain().name(), "chip-chain") : placeholder("Chain"));
         if (draft.getProtocol() != null) {
-            chips.add(chip(draft.getProtocol().name().toLowerCase(), "#00838f"));
+            chips.add(chip("📡 " + draft.getProtocol().name().toLowerCase(), "chip-protocol"));
         }
         String ip = sourceIpField.getText();
         if (ip != null && !ip.isBlank()) {
-            chips.add(chip("s " + ip.trim(), "#6a1b9a"));
+            chips.add(chip("🌐 " + ip.trim(), "chip-net"));
         }
         String port = portField.getText();
         if (port != null && !port.isBlank()) {
-            chips.add(chip(":" + port.trim(), "#6a1b9a"));
+            chips.add(chip("🔌 " + port.trim(), "chip-net"));
         }
-        chips.add(draft.getAction() != null ? chip(draft.getAction().name(), actionColor()) : placeholder("Action"));
+        chips.add(draft.getAction() != null ? chip("🎯 " + draft.getAction().name(), actionChipClass()) : placeholder("Action"));
 
         for (int i = 0; i < chips.size(); i++) {
             if (i > 0) {
@@ -292,31 +298,29 @@ public class MainViewController {
         }
     }
 
-    private String actionColor() {
+    private String actionChipClass() {
         return switch (draft.getAction()) {
-            case ACCEPT -> "#2e7d32";
-            case DROP -> "#c62828";
-            case REJECT -> "#ef6c00";
+            case ACCEPT -> "chip-accept";
+            case DROP -> "chip-drop";
+            case REJECT -> "chip-reject";
         };
     }
 
-    private Label chip(String text, String background) {
+    private Label chip(String text, String styleClass) {
         Label label = new Label(text);
-        label.setStyle("-fx-background-color: " + background + "; -fx-text-fill: white; "
-                + "-fx-padding: 6 12 6 12; -fx-background-radius: 6; -fx-font-weight: bold;");
+        label.getStyleClass().addAll("chip", styleClass);
         return label;
     }
 
     private Label placeholder(String text) {
         Label label = new Label(text);
-        label.setStyle("-fx-border-color: #b0b0b0; -fx-border-style: segments(4, 4); -fx-border-radius: 6; "
-                + "-fx-text-fill: #999999; -fx-padding: 6 12 6 12;");
+        label.getStyleClass().add("chip-placeholder");
         return label;
     }
 
     private Label arrow() {
-        Label label = new Label("→");
-        label.setStyle("-fx-text-fill: #666666; -fx-font-size: 14;");
+        Label label = new Label("➜");
+        label.getStyleClass().add("chip-arrow");
         return label;
     }
 

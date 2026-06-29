@@ -30,3 +30,6 @@ buildNumber.properties
 # IDE
 .idea/
 .vscode/
+
+# Ferramentas locais (Maven baixado para este ambiente)
+.tools/

@@ -22,8 +22,7 @@ public class DraggableNode extends Label {
         this.type = type;
         this.value = value;
 
-        setStyle("-fx-border-color: #b0b0b0; -fx-border-width: 1; -fx-background-color: #ffffff; -fx-padding: 8px; -fx-background-radius: 4; -fx-border-radius: 4;");
-        setPrefWidth(180);
+        getStyleClass().addAll("drag-node", colorClassFor(type, value));
 
         setOnDragDetected(event -> {
             Dragboard db = startDragAndDrop(TransferMode.COPY);
@@ -32,5 +31,19 @@ public class DraggableNode extends Label {
             db.setContent(content);
             event.consume();
         });
+    }
+
+    /** Define a classe de cor do bloco de acordo com sua categoria/valor. */
+    private static String colorClassFor(String type, String value) {
+        return switch (type) {
+            case "CHAIN" -> "node-chain";
+            case "PROTOCOL" -> "node-protocol";
+            case "ACTION" -> switch (value) {
+                case "ACCEPT" -> "node-accept";
+                case "DROP" -> "node-drop";
+                default -> "node-reject";
+            };
+            default -> "node-chain";
+        };
     }
 }
